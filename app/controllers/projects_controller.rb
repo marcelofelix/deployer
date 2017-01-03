@@ -11,6 +11,6 @@ class ProjectsController < ApplicationController
   private
 
   def project_params
-    params.require(:project).permit(:name, :bucket)
+    params.require(:project).permit(:name, :bucket_name)
   end
 end

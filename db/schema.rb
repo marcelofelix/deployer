@@ -16,21 +16,21 @@ ActiveRecord::Schema.define(version: 20170102154429) do
   enable_extension "plpgsql"
 
   create_table "environments", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "version",    null: false
-    t.string   "bucket",     null: false
-    t.integer  "project_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",        null: false
+    t.string   "version",     null: false
+    t.string   "bucket_name", null: false
+    t.integer  "project_id",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.index ["project_id"], name: "index_environments_on_project_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "bucket",     null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bucket"], name: "index_projects_on_bucket", unique: true, using: :btree
+    t.string   "name",        null: false
+    t.string   "bucket_name", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["bucket_name"], name: "index_projects_on_bucket_name", unique: true, using: :btree
     t.index ["name"], name: "index_projects_on_name", unique: true, using: :btree
   end
 

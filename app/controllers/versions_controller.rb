@@ -3,16 +3,26 @@ class VersionsController < ApplicationController
     @version = Version.new(version_params)
     @version.project = project
     if @version.save
-      redirect_to 'index'
+      render body: nil, status: 204
     else
-      respond_to do
-        format.html
-        format.json { render json: @version.errors.messages }
-      end
+      render json: @version.errors.messages
     end
   end
 
+  def deploy
+    version.deploy_to environment
+    environment.save
+  end
+
   private
+
+  def version
+    @version ||= Version.find(params[:id])
+  end
+
+  def environment
+    @environment ||= Environment.find(params[:environment_id])
+  end
 
   def project
     @project ||= Project.find(params[:project_id])

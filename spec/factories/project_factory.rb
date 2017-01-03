@@ -6,6 +6,6 @@ FactoryGirl.define do
 
   factory :project do
     name { generate(:project) }
-    bucket { "bucket.#{name}" }
+    bucket_name { "bucket.#{name}" }
   end
 end

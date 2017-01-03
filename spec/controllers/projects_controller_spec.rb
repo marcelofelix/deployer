@@ -7,7 +7,7 @@ RSpec.describe ProjectsController, type: :controller do
   end
 
   it 'create' do
-    get :create, params: { project: { name: 'Teste', bucket: 'teste' } }
+    get :create, params: { project: { name: 'Teste', bucket_name: 'teste' } }
     expect(Project.count).to eq 1
   end
 end

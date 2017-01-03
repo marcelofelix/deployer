@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
   validates :name, presence: true, uniqueness: true
-  validates :bucket, presence: true, uniqueness: true
+  validates :bucket_name, presence: true, uniqueness: true
   has_many :environments
   has_many :versions
 
@@ -10,5 +10,9 @@ class Project < ApplicationRecord
         versions << Version.create(project: self, name: b.name)
       end
     end
+  end
+
+  def bucket
+    @bucket ||= Aws::S3::Bucket.new(bucket_name, region: 'us-east-1')
   end
 end

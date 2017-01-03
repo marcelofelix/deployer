@@ -19,6 +19,6 @@ class EnvironmentsController < ApplicationController
   end
 
   def environment_params
-    params.require(:environment).permit(:name, :version, :bucket)
+    params.require(:environment).permit(:name, :version, :bucket_name)
   end
 end
