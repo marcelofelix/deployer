@@ -26,8 +26,13 @@ RSpec.describe Project, type: :model do
   end
 
   it 'sync versions' do
+    bucket = double('Bucket')
+    expect(bucket).to receive(:list).and_return [
+      double(name: '123')
+    ]
+
     project = create(:project, bucket: 'owners-assets.com.br')
-    project.sync_version
-    expect(project.versions.size).to eq 10
+    project.sync_version(build_bucket: bucket)
+    expect(project.versions.size).to eq 1
   end
 end
