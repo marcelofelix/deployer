@@ -1,21 +1,32 @@
+require 'fileutils'
+require 'pathname'
+
 class Bucket
-  def initialize(name, client: Aws::S3::Bucket.new(name, region: 'us-east-1'))
+  def initialize(name, s3: Aws::S3::Client.new(region: 'us-east-1'))
     @name = name
-    @client = client
+    @s3 = s3
   end
 
-  def list
-    @objects ||= client.list_objects(
-      bucket: name,
-      delimiter: '/'
-    ).contents.map do |o|
-      Struct::Build.new(o.key)
+  def copy(prefix)
+    list(prefix: prefix).each do |o|
+      file = "/tmp/#{o.key}"
+      path = Pathname.new(file)
+      FileUtils.mkdir_p path.dirname unless File.exists? path.dirname
+      unless o.key.end_with?('/')
+        File.open(file, 'wb') do |f|
+          s3.get_object( {bucket: name, key: o.key }, target: f)
+        end
+      end
     end
+  end
+
+  def list(opts = {})
+    options = { bucket: name }.merge(opts)
+    s3.list_objects(options).contents
   end
 
   private
 
-  attr_reader :client, :name
+  attr_reader :s3, :name
 end
 
-Struct.new('Build', :name)
