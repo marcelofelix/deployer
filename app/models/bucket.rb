@@ -1,32 +1,41 @@
-require 'fileutils'
-require 'pathname'
+require 'storage'
 
 class Bucket
-  def initialize(name, s3: Aws::S3::Client.new(region: 'us-east-1'))
+  attr_reader :name, :region, :prefix
+
+  def initialize(name, opts = {})
     @name = name
-    @s3 = s3
+    @prefix = opts[:prefix]
+    @region = opts.fetch(:region, 'us-east-1')
+    @s3 = opts.fetch(:s3, Aws::S3::Client.new(region: region))
+    @storage = opts.fetch(:storage, Storage.new)
   end
 
-  def copy(prefix)
-    list(prefix: prefix).each do |o|
-      file = "/tmp/#{o.key}"
-      path = Pathname.new(file)
-      FileUtils.mkdir_p path.dirname unless File.exists? path.dirname
-      unless o.key.end_with?('/')
-        File.open(file, 'wb') do |f|
-          s3.get_object( {bucket: name, key: o.key }, target: f)
-        end
-      end
+  def download_all
+    list.each do |key|
+      download(key)
     end
   end
 
-  def list(opts = {})
-    options = { bucket: name }.merge(opts)
-    s3.list_objects(options).contents
+  def download(key)
+    file = key.sub("#{ prefix }", '')
+    storage.create(file) do |f|
+      s3.get_object( {bucket: name, key: key }, target: f)
+    end
+  end
+
+  def upload(file)
+    obj = s3.bucket(name).object(file)
+    obj.upload_file(file)
+  end
+
+  def list
+    options = { bucket: name, prefix: prefix }.delete_if { |k, v| v.nil? }
+    @objects ||= s3.list_objects(options).contents.map(&:key)
   end
 
   private
 
-  attr_reader :s3, :name
+  attr_reader :s3, :storage
 end
 
