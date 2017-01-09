@@ -35,4 +35,17 @@ RSpec.describe Storage do
     expect(storage.keys).to include(key)
     expect(storage.paths).to include(path)
   end
+
+  it 'test replace file content' do
+    file = 'main.js'
+    key = 'URL'
+    value = 'http://teste'
+    storage = Storage.new(manager: manager)
+
+    expect(manager).to receive(:replace).with(storage.path_of(file), key, value)
+
+    storage.create(file)
+    storage.replace(file, key, value)
+    storage.remove
+  end
 end

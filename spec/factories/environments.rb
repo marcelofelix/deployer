@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :environment do
-    name "Production"
+    name 'Production'
     project
     bucket_name 'production'
     version '123'

@@ -1,5 +1,7 @@
 require 'storage'
 
+# Represents a bucket at S3 and
+# have basic operations
 class Bucket
   attr_reader :name, :region, :prefix
 
@@ -8,34 +10,45 @@ class Bucket
     @prefix = opts[:prefix]
     @region = opts.fetch(:region, 'us-east-1')
     @s3 = opts.fetch(:s3, Aws::S3::Client.new(region: region))
-    @storage = opts.fetch(:storage, Storage.new)
   end
 
-  def download_all
-    list.each do |key|
-      download(key)
-    end
+  def download(key, file)
+    s3.get_object({ bucket: name, key: add_prefix(key) }, target: file)
   end
 
-  def download(key)
-    file = key.sub("#{ prefix }", '')
-    storage.create(file) do |f|
-      s3.get_object( {bucket: name, key: key }, target: f)
-    end
-  end
-
-  def upload(file)
-    obj = s3.bucket(name).object(file)
-    obj.upload_file(file)
+  def upload(key, file)
+    s3.put_object(
+      acl: 'public-read',
+      bucket: name,
+      body: file,
+      key: add_prefix(key)
+    )
   end
 
   def list
-    options = { bucket: name, prefix: prefix }.delete_if { |k, v| v.nil? }
-    @objects ||= s3.list_objects(options).contents.map(&:key)
+    options = { bucket: name, prefix: prefix }.delete_if { |_k, v| v.nil? }
+    @objects ||= s3.list_objects(options).contents.map do |o|
+      del_prefix o.key
+    end.delete_if(&:empty?)
+  end
+
+  def delete(key)
+    s3.delete_object(bucket: name, key: key)
+  end
+
+  def files
+    storage.files
   end
 
   private
 
-  attr_reader :s3, :storage
-end
+  def del_prefix(value)
+    value.sub(prefix.to_s, '')
+  end
 
+  def add_prefix(value)
+    "#{prefix}#{value}"
+  end
+
+  attr_reader :s3
+end

@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   sequence :project do |n|
     "Porject #{n}"
   end

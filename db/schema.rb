@@ -10,38 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170102154429) do
-
+ActiveRecord::Schema.define(version: 20_170_109_161_412) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "environments", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.string   "version",     null: false
-    t.string   "bucket_name", null: false
-    t.integer  "project_id",  null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["project_id"], name: "index_environments_on_project_id", using: :btree
+  create_table 'environments', force: :cascade do |t|
+    t.string   'name',        null: false
+    t.string   'version',     null: false
+    t.string   'bucket_name', null: false
+    t.integer  'project_id',  null: false
+    t.datetime 'created_at',  null: false
+    t.datetime 'updated_at',  null: false
+    t.index ['project_id'], name: 'index_environments_on_project_id', using: :btree
   end
 
-  create_table "projects", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.string   "bucket_name", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["bucket_name"], name: "index_projects_on_bucket_name", unique: true, using: :btree
-    t.index ["name"], name: "index_projects_on_name", unique: true, using: :btree
+  create_table 'projects', force: :cascade do |t|
+    t.string   'name',        null: false
+    t.string   'bucket_name', null: false
+    t.datetime 'created_at',  null: false
+    t.datetime 'updated_at',  null: false
+    t.index ['bucket_name'], name: 'index_projects_on_bucket_name', unique: true, using: :btree
+    t.index ['name'], name: 'index_projects_on_name', unique: true, using: :btree
   end
 
-  create_table "versions", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "project_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_versions_on_project_id", using: :btree
+  create_table 'replaces', force: :cascade do |t|
+    t.string   'file',           null: false
+    t.string   'key',            null: false
+    t.string   'value',          null: false
+    t.integer  'environment_id', null: false
+    t.datetime 'created_at',     null: false
+    t.datetime 'updated_at',     null: false
+    t.index ['environment_id'], name: 'index_replaces_on_environment_id', using: :btree
   end
 
-  add_foreign_key "environments", "projects"
-  add_foreign_key "versions", "projects"
+  add_foreign_key 'environments', 'projects'
+  add_foreign_key 'replaces', 'environments'
 end

@@ -7,7 +7,14 @@ RSpec.describe ProjectsController, type: :controller do
   end
 
   it 'create' do
-    get :create, params: { project: { name: 'Teste', bucket_name: 'teste' } }
+    post :create, params: { project: { name: 'Teste', bucket_name: 'teste' } }
     expect(Project.count).to eq 1
+  end
+
+  it 'show project by id' do
+    project = create(:project)
+    get 'show', params: { id: project.id }
+    expect(response).to be_success
+    expect(response.body).to eq project.to_json
   end
 end
