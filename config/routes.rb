@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   resources :environments
   resources :versions
   post '/versions/:id/deploy', to: 'versions#deploy'
+  root to: 'projects#index'
 end
