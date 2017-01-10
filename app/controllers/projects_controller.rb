@@ -11,12 +11,20 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    render json: Project.find(params[:id])
+    @project = Project.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render json: @project }
+    end
   end
 
   def create
-    Project.create(project_params)
-    redirect_to 'index'
+    @project = Project.new(project_params)
+    if @project.save
+      render json: @project
+    else
+      render json: { errors: @project.errors.messages }, status: 422
+    end
   end
 
   private

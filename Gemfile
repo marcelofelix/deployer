@@ -5,16 +5,18 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 5.0.1'
-gem 'puma', '~> 3.0'
-gem 'sass-rails', '~> 5.0'
-gem 'bootstrap-sass'
-gem 'uglifier', '>= 1.3.0'
-gem 'jquery-rails'
-gem 'jbuilder', '~> 2.5'
-gem 'pg'
 gem 'aws-sdk', '~> 2'
+gem 'axios_rails', '~> 0.14.0'
+gem 'bootstrap-sass'
+gem 'jbuilder', '~> 2.5'
+gem 'jquery-rails'
+gem 'pg'
+gem 'puma', '~> 3.0'
+gem 'rails', '~> 5.0.1'
+gem 'sass-rails', '~> 5.0'
 gem 'simplecov', :require => false, :group => :test
+gem 'uglifier', '>= 1.3.0'
+gem 'vuejs-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
