@@ -7,7 +7,7 @@
     <%= stylesheet_link_tag    'application', media: 'all' %>
   </head>
 
-  <body class="container">
+  <body class="container <%= controller_name %>_<%= action_name %>">
     <%= yield %>
   </body>
   <%= javascript_include_tag 'application' %>
