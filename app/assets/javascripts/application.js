@@ -13,6 +13,8 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
+//= require lodash
+//= require jquery.validate
 //= require vue
 //= require axios
 //= require services

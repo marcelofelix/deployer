@@ -10,6 +10,10 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def new
+    @project = Project.new
+  end
+
   def show
     @project = Project.find(params[:id])
     respond_to do |format|

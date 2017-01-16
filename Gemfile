@@ -17,6 +17,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'simplecov', :require => false, :group => :test
 gem 'uglifier', '>= 1.3.0'
 gem 'vuejs-rails'
+gem 'jquery-validation-rails'
+gem 'lodash-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

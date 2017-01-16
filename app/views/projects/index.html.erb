@@ -1,21 +1,22 @@
-<h3>Projetos</h3>
-<div id="projects">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <section class="navbar-header">
+      <span class="navbar-brand">Projetos</span>
+    </section>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <li><%= link_to 'Novo', new_project_path %></li>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+<div>
   <ul class="list-group">
-    <li v-for="p in projects" class="list-group-item">
-      <a :href="'/projects/' + p.id">{{p.name}}</a>
-    </li>
-    <li class="list-group-item form-inline text-center">
-      <div class="form-group" v-bind:class="{ 'has-error': errors['name'] }">
-        <label class="control-label" for="name">Name</label>
-        <input class="form-control" v-model="project.name" id="name">
-        <span v-if="errors['name']" class="help-block">{{ errors['name'][0] }}</span>
-      </div>
-      <div class="form-group" v-bind:class="{ 'has-error': errors['bucket_name'] }">
-        <label class="control-label"for="bucket">Bucket</label>
-        <input class="form-control" v-model="project.bucket_name" id="bucket">
-        <span v-if="errors['bucket_name']" class="help-block">{{ errors['bucket_name'][0] }}</span>
-      </div>
-      <button class="btn btn-primary" @click="create">Salvar</button>
-    </li>
+    <% @projects.each do |p| %>
+      <li class="list-group-item">
+        <%= link_to p.name, project_path(p) %>
+      </li>
+    <% end %>
   </ul>
 </div>
