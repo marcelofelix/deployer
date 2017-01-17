@@ -16,8 +16,14 @@ $(function() {
   function showReplace(envId) {
     envService.get(envId)
       .then(function(res) {
-        const replace = HandlebarsTemplates['environments/replace_item']();
-        $('#replaceTable').append(replace);
+        _.forEach(res.data.replaces, function(r) {
+          const replace = HandlebarsTemplates['environments/replace_item']({
+            file: r.file,
+            key: r.key,
+            value: r.value
+          });
+          $('#replaceTable').append(replace);
+        });
         $('#replaceModal').modal('show');
       });
   }
