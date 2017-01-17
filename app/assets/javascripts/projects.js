@@ -1,18 +1,37 @@
 $(function() {
 
-  if ($('.projects_new').length) {
-    $('#btnAddEvn').click(addEnv);
-    $('#btnSaveProject').click(saveProject);
+  if ($('.projects_show').length) {
+    $('#btnNewEnv').click(newEnv);
+    $('#btnSaveEnv').click(saveEnv);
+    $('.replace-modal').click(function() {
+      const id = $(this).data('env');
+      showReplace(id);
+    });
   }
 
-  function saveProject() {
-    if (!_.every([validate(projectName()), validate(projectBucket())])) {
-      projectServices.create({name: projectName().val(), bucket_name: projectBucket().value() })
-        .then(function(res) {
-          console.log('teste');
+  function newEnv() {
+    $('#envModal').modal('show');
+  }
+
+  function showReplace(envId) {
+    envService.get(envId)
+      .then(function(res) {
+        const replace = HandlebarsTemplates['environments/replace_item']();
+        $('#replaceTable').append(replace);
+        $('#replaceModal').modal('show');
+      });
+  }
+
+  function saveEnv() {
+    if (_.every([validate(envName()), validate(envBucket())])) {
+      envService.create(project(), {
+        name: envName().val(),
+        bucket_name: envBucket().val()
+      })
+        .then(function() {
+          location.reload();
         });
     }
-
   }
 
   function validate(el) {
@@ -25,44 +44,15 @@ $(function() {
     return true;
   }
 
-  function addEnv() {
-    if (!_.every([validate(envName()), validate(envBucket())])) {
-      const env = createEnv(envName().val(), envBucket().val());
-      env.data('env_name', envName().val());
-      env.data('env_buckete-name', envBucket().val());
-      env.addClass('list-group-item env-item');
-      $('#env-list').append(env);
-      envName().val('');
-      envBucket().val('');
-    }
-  }
-
-  function createEnv(name, bucket) {
-    return $(`
-      <li class="list-group-item">
-          <div class="container">
-            <div class="row">
-              <div class="col-xs-5"><label>Name: </label> ${name}</div>
-              <div class="col-xs-7"><label>Bucket: </label> ${bucket}</div>
-            </div>
-          </div>
-        </li>
-    `);
-  }
-
-  function projectName() {
-    return $('#name');
-  }
-
-  function projectBucket() {
-    return $('#bucket');
-  }
-
   function envName() {
-    return $('#env_name');
+    return $('#envName');
   }
 
   function envBucket() {
-    return $('#env_bucket');
+    return $('#envBucket');
+  }
+
+  function project() {
+    return $('#project').data('id');
   }
 });

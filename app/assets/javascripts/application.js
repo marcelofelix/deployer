@@ -14,8 +14,8 @@
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require lodash
-//= require jquery.validate
-//= require vue
+//= require handlebars.runtime
 //= require axios
 //= require services
 //= require projects
+//= require_tree ./templates

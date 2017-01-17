@@ -1,0 +1,98 @@
+<div class="container-fluid" id="project" data-id="<%= @project.id %>">
+  <section class="row">
+    <div class="container panel panel-default">
+      <h2 class="text-center"><small>Project</small></h2>
+      <div class="form-group">
+        <label>Name: </label>
+        <span><%= @project.name %></span>
+      </div>
+      <div class="form-group">
+        <label>Bucket: </label>
+        <span><%= @project.bucket_name %></span>
+      </div>
+      <div>
+        <table class="table">
+          <tr>
+            <th>Environment</th>
+            <th>Bucket</th>
+            <th>Version</th>
+            <th>
+              <span id="btnNewEnv" class="btn bt-link glyphicon glyphicon-plus-sign"></span>
+            </th>
+          </tr>
+          <% @project.environments.each do |e| %>
+            <tr>
+              <td><%= e.name %></td>
+              <td><%= e.bucket_name %></td>
+              <td><span class="badge"><%= e.version %></span></td>
+              <td class="center">
+                <div class="btn-group">
+                  <button class="btn btn-default btn-sm dropdown-toggle" type="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Deploy</a></li>
+                    <li><a href="#" class="replace-modal" data-env="<%= e.id %>">Replace</a></li>
+                    <li><a href="#">Remove</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="envModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Envrionment</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="envName" class="control-label">Name:</label>
+          <input class="form-control" type="text" id="envName" name="envName">
+        </div>
+        <div class="form-group">
+          <label for="envBucket" class="control-label">Bucket:</label>
+          <input class="form-control" type="text" id="envBucket" name="envBucket">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="btnSaveEnv">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="replaceModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Replaces</h4>
+      </div>
+      <div class="modal-body">
+        <table id="replaceTable" class="table">
+          <tr>
+            <th>File</th>
+            <th>Key</th>
+            <th>Value</th>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnCloseReplace">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,11 @@ class EnvironmentsController < ApplicationController
     end
   end
 
+  def show
+    @env = Environment.find(params[:id])
+    render json: @env, include: [:replaces]
+  end
+
   private
 
   def project
