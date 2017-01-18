@@ -13,12 +13,26 @@ class EnvironmentsController < ApplicationController
     end
   end
 
+  def add_replace
+    replace_param = params.require(:replace).permit(:file, :key, :value)
+    @replace = Replace.new(replace_param)
+    @replce.environment = environment
+    if @replace.save
+      render json: @replace
+    else
+    end
+  end
+
   def show
     @env = Environment.find(params[:id])
-    render json: @env, include: [:replaces]
+    render json: environment, include: [:replaces]
   end
 
   private
+
+  def environment
+    @env = Environment.find(params[:id])
+  end
 
   def project
     @project ||= Project.find(params[:project_id])

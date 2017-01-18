@@ -15,6 +15,17 @@ const envService = {
     });
   },
 
+  addReplace: function(env, file, key, value) {
+    return axios.post('/environments/' + env + '/replace', {
+      id: env,
+      replace: {
+        file: file,
+        key: key,
+        value: value
+      }
+    });
+  }
+
   get: function(id) {
     return axios.get('/environments/' + id);
   }
