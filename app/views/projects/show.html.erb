@@ -11,7 +11,7 @@
         <span><%= @project.bucket_name %></span>
       </div>
       <div>
-        <table class="table">
+        <table class="table" id="envTable">
           <tr>
             <th>Environment</th>
             <th>Bucket</th>
@@ -28,14 +28,14 @@
               <td class="center">
                 <div class="btn-group">
                   <button class="btn btn-default btn-sm dropdown-toggle" type="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Actions
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="#">Deploy</a></li>
-                    <li><a href="#" class="replace-modal" data-env="<%= e.id %>">Replace</a></li>
-                    <li><a href="#">Remove</a></li>
+                    <li><a href="#" class="version-modal" data-id="<%= e.id %>">Deploy</a></li>
+                    <li><a href="#" class="replace-modal" data-id="<%= e.id %>">Replace</a></li>
+                    <li><a href="#" class="remove-env" data-id="<%= e.id %>">Remove</a></li>
                   </ul>
                 </div>
               </td>
@@ -107,8 +107,21 @@
           </tr>
         </table>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btnCloseReplace">Close</button>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="versionModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Versions</h4>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group" id="versionList">
+        </ul>
       </div>
     </div>
   </div>

@@ -4,10 +4,6 @@
 class ProjectsController < ApplicationController
   def index
     @projects = Project.all
-    respond_to do |format|
-      format.html
-      format.json { render json: @projects }
-    end
   end
 
   def new
@@ -15,7 +11,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.find(params[:id])
+    project
     respond_to do |format|
       format.html
       format.json { render json: @project }
@@ -31,7 +27,15 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def versions
+    render json: project.list_versions
+  end
+
   private
+
+  def project
+    @project ||= Project.find(params[:id])
+  end
 
   def project_params
     params.require(:project).permit(:name, :bucket_name)

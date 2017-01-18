@@ -1,9 +1,10 @@
 const projectService = {
-  list: function list() {
-    return axios.get('/projects.json');
-  },
-  create: function create(project) {
+  create: function(project) {
     return axios.post('/projects', { project: project });
+  },
+
+  versions: function(id) {
+    return axios.get('/projects/' + id + '/versions');
   }
 };
 
@@ -24,9 +25,23 @@ const envService = {
         value: value
       }
     });
-  }
+  },
+
+  removeReplace: function(id) {
+    return axios.delete('/environments/replace/' + id);
+  },
+
+  delete: function(id) {
+    return axios.delete('/environments/' + id);
+  },
 
   get: function(id) {
     return axios.get('/environments/' + id);
+  },
+
+  deploy: function(env, version) {
+    return axios.post('/environments/' + env + '/deploy', {
+      version: version
+    });
   }
 };
