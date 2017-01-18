@@ -4,5 +4,6 @@ FactoryGirl.define do
     project
     bucket_name 'production'
     version '123'
+    region 'us-east-1'
   end
 end

@@ -6,20 +6,24 @@ class FileManager
     FileUtils.mkdir_p path
   end
 
-  def self.write_file(file)
-    create_dir Pathname.new(file).dirname
+  def self.create_file_at(directory, file)
+    create_dir Pathname.new("#{directory}#{file}").dirname
     File.open(file, 'wb') do |f|
       yield f
     end
   end
 
-  def self.replace(file, key, value)
-    text = File.read(file)
+  def self.replace(directory, file, key, value)
+    text = File.read("#{directory}#{file}")
     replaced = text.gsub(key, value)
     File.open(file, 'w') { |f| f.puts replaced }
   end
 
   def self.remove(path)
     FileUtils.rm_rf path
+  end
+
+  def self.open(directory, file)
+    File.open("#{directory}#{file}")
   end
 end

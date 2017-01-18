@@ -7,28 +7,44 @@ class ProjectsController < ApplicationController
   end
 
   def new
+    @action = projects_path
+    @method = 'post'
     @project = Project.new
   end
 
   def show
     project
-    respond_to do |format|
-      format.html
-      format.json { render json: @project }
-    end
+  end
+
+  def edit
+    @action = project_path project
+    @method = 'put'
   end
 
   def create
     @project = Project.new(project_params)
+
     if @project.save
-      render json: @project
+      redirect_to projects_url
     else
-      render json: { errors: @project.errors.messages }, status: 422
+      render 'new'
+    end
+  end
+
+  def update
+    if project.update_attributes(project_params)
+      redirect_to projects_url
+    else
+      render 'edit'
     end
   end
 
   def versions
     render json: project.list_versions
+  end
+
+  def errors
+    []
   end
 
   private
@@ -38,6 +54,6 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:name, :bucket_name)
+    params.require(:project).permit(:name, :bucket_name, :region)
   end
 end

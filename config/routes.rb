@@ -1,9 +1,15 @@
 Rails.application.routes.draw do
-  resources :projects
-  resources :environments
+  resources :projects do
+    resources :environments
+  end
+  resources :deploy, only: :index
+  post '/deploy', to: 'deploy#deploy'
+
   get '/projects/:id/versions', to: 'projects#versions'
-  post '/environments/:id/replace', to: 'environments#add_replace'
+
+  post '/replaces', to: 'environments#add_replace'
+  delete '/replaces/:id', to: 'environments#remove_replace'
+
   post '/environments/:id/deploy', to: 'environments#deploy'
-  delete '/environments/replace/:id', to: 'environments#remove_replace'
   root to: 'projects#index'
 end

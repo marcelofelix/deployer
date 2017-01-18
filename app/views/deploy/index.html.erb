@@ -1,0 +1,35 @@
+
+<% if @env %>
+  <div>
+    <label class="control-label">Project:</label>
+    <%= @env.project_name %>
+  </div>
+  <div>
+    <label class="control-label">Environment:</label>
+    <%= @env.name %>
+  </div>
+  <form action="" method="post">
+    <div class="form-group">
+      <table class="table">
+        <tr>
+          <th></th>
+          <th>Version</th>
+          <th>Date</th>
+        </tr>
+        <% @env.project_versions.each do |v| %>
+          <tr>
+            <td>
+              <input type="radio" name="version" value="<%= v %>">
+            </td>
+            <td><%= v %></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="text-right">
+      <button type="submit" class="btn btn-primary">Deploy</button>
+    </div>
+  </form>
+<% end %>
+

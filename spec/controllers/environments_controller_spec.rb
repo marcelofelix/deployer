@@ -8,7 +8,8 @@ RSpec.describe EnvironmentsController, type: :controller do
       environment: {
         name: 'Production',
         version: '233',
-        bucket_name: 'production.bucket'
+        bucket_name: 'production.bucket',
+        region: 'x'
       }
     }
     expect(Environment.count).to eq 1

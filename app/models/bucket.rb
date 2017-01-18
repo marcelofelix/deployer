@@ -12,17 +12,25 @@ class Bucket
     @s3 = opts.fetch(:s3, Aws::S3::Client.new(region: region))
   end
 
-  def download(key, file)
-    s3.get_object({ bucket: name, key: add_prefix(key) }, target: file)
+  def download(storage)
+    list.each do |k|
+      storage.create k do |f|
+        s3.get_object({ bucket: name, key: add_prefix(k) }, target: f)
+      end
+    end
   end
 
-  def upload(key, file)
-    s3.put_object(
-      acl: 'public-read',
-      bucket: name,
-      body: file,
-      key: add_prefix(key)
-    )
+  def upload(storage)
+    keys = storage.keys
+    keys.each do |k|
+      s3.put_object(
+        acl: 'public-read',
+        bucket: name,
+        body: storage.open(k),
+        key: add_prefix(k)
+      )
+    end
+    keys
   end
 
   def list
@@ -32,12 +40,8 @@ class Bucket
     end.delete_if(&:empty?)
   end
 
-  def delete(key)
+  def remove(key)
     s3.delete_object(bucket: name, key: key)
-  end
-
-  def files
-    storage.files
   end
 
   private

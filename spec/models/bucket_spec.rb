@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Bucket, type: :model do
-  it 'test list objects' do
-    client = instance_double('Aws::S3::Client')
+  let(:client) { client = instance_double('Aws::S3::Client') }
+  it 'should list objects' do
     expect(client).to receive(:list_objects).and_return double(
       contents: [
         double(key: 'app/'),
@@ -15,7 +15,6 @@ RSpec.describe Bucket, type: :model do
   end
 
   it 'test list objects with prefix' do
-    client = instance_double('Aws::S3::Client')
     expect(client).to receive(:list_objects).and_return double(
       contents: [
         double(key: 'app/'),
@@ -27,57 +26,76 @@ RSpec.describe Bucket, type: :model do
     expect(bucket.list).to eq ['file']
   end
 
-  it 'test download object' do
-    client = instance_double('Aws::S3::Client')
+  it 'Should download file and save into storage' do
     file = double('File')
+    storage = instance_double('Storage')
+    expect(storage).to receive(:create).with('file.js').and_yield file
 
     expect(client).to receive(:get_object).with(
-      { bucket: 'bucket_name', key: 'key' }, target: file
+      { bucket: 'bucket_name', key: 'file.js' }, target: file
     )
 
     bucket = Bucket.new('bucket_name', s3: client)
-    bucket.download('key', file)
+    allow(bucket).to receive(:list).and_return ['file.js']
+    bucket.download(storage)
   end
 
   it 'test download object with prefix' do
-    client = instance_double('Aws::S3::Client')
     file = double('File')
+    storage = instance_double('Storage')
+    expect(storage).to receive(:create).with('file.js').and_yield file
 
     expect(client).to receive(:get_object).with(
-      { bucket: 'bucket_name', key: 'teste/key' }, target: file
+      { bucket: 'bucket_name', key: 'teste/file.js' }, target: file
     )
 
     bucket = Bucket.new('bucket_name', s3: client, prefix: 'teste/')
-    bucket.download('key', file)
+    allow(bucket).to receive(:list).and_return ['file.js']
+    bucket.download(storage)
   end
 
-  it 'test upload file' do
-    client = instance_double('Aws::S3::Client')
+  it 'Should upload files from storage' do
     file = double('File')
+    storage = instance_double('Storage')
+    expect(storage).to receive(:keys).and_return ['file.js']
+    expect(storage).to receive(:open).with('file.js').and_return file
 
     expect(client).to receive(:put_object).with(
       acl: 'public-read',
       bucket: 'bucket_name',
       body: file,
-      key: 'key'
+      key: 'file.js'
     )
 
     bucket = Bucket.new('bucket_name', s3: client)
-    bucket.upload('key', file)
+    bucket.upload(storage)
   end
 
   it 'test upload file with prefix' do
-    client = instance_double('Aws::S3::Client')
     file = double('File')
+    storage = instance_double('Storage')
+    expect(storage).to receive(:keys).and_return ['file.js']
+    expect(storage).to receive(:open).with('file.js').and_return file
 
     expect(client).to receive(:put_object).with(
       acl: 'public-read',
       bucket: 'bucket_name',
       body: file,
-      key: 'app/key'
+      key: 'app/file.js'
     )
 
     bucket = Bucket.new('bucket_name', s3: client, prefix: 'app/')
-    bucket.upload('key', file)
+    bucket.upload(storage)
+  end
+
+  it 'test remove key' do
+    bucket_name = 'some bucket'
+    key = 'some key'
+
+    expect(client).to receive(:delete_object)
+      .with(bucket: bucket_name, key: key)
+
+    bucket = Bucket.new(bucket_name, s3: client)
+    bucket.remove(key)
   end
 end
