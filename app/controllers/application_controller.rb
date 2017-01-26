@@ -1,5 +1,15 @@
 class ApplicationController < ActionController::Base
   unless Rails.env.test?
-    # http_basic_authenticate_with name: ENV['USER'], password: ENV['PASSWORD']
+    before_filter :authenticate
+    protect_from_forgery
+
+  end
+
+  protected
+
+  def authenticate
+    authenticate_or_request_with_http_basic do |username, password|
+      username == Figaro.env.user && password == Figaro.env.password
+    end
   end
 end
