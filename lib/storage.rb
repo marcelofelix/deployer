@@ -7,7 +7,7 @@ class Storage
   attr_reader :directory, :keys
 
   def initialize(manager: FileManager)
-    @directory = "#{Rails.root}/tmp/#{SecureRandom.uuid}/"
+    @directory = "#{Rails.root}/tmp/files/#{SecureRandom.uuid}/"
     @manager = manager
     @keys = []
   end
