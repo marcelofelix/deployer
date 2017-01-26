@@ -28,7 +28,7 @@ class Storage
 
   def replace(file, key, value)
     @keys.each do |k|
-      manager.replace(directory, k, key, value) if k.match file
+      manager.replace(directory, k, key, value) if k.end_with? file
     end
   end
 
