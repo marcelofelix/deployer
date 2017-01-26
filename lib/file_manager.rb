@@ -7,7 +7,6 @@ class FileManager
   end
 
   def self.create_file_at(directory, file)
-    binding.pry
     create_dir Pathname.new(directory)
     File.open("#{directory}#{file}", 'wb') do |f|
       yield f
