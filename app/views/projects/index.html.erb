@@ -1,22 +1,25 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <section class="navbar-header">
-      <span class="navbar-brand">Projetos</span>
-    </section>
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-        <li><%= link_to 'Novo', new_project_path %></li>
-      </li>
-    </ul>
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Bucket</th>
+    <th>Region</th>
+    <th>
+      <a href="/projects/new"></a>
+        <span class="btn btn-primary btn-sm glyphicon glyphicon-plus-sign"></span>
+      </a>
+    </th>
+  </tr>
+  <% @projects.each do |p| %>
+    <tr>
+      <td><%= link_to p.name, project_path(p) %></td>
+      <td><%= p.bucket_name%></td>
+      <td><%= p.region %></td>
+      <td>
+        <a class="btn btn-default btn-sm" href="/projects/<%= p.id  %>/edit">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+      </td>
+    </tr>
+  <% end %>
+</table>
 
-  </div>
-</nav>
-<div>
-  <ul class="list-group">
-    <% @projects.each do |p| %>
-      <li class="list-group-item">
-        <%= link_to p.name, project_path(p) %>
-      </li>
-    <% end %>
-  </ul>
-</div>

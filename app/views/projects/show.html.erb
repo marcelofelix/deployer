@@ -1,128 +1,48 @@
-<div class="container-fluid" id="project" data-id="<%= @project.id %>">
-  <section class="row">
-    <div class="container panel panel-default">
-      <h2 class="text-center"><small>Project</small></h2>
-      <div class="form-group">
-        <label>Name: </label>
-        <span><%= @project.name %></span>
-      </div>
-      <div class="form-group">
-        <label>Bucket: </label>
-        <span><%= @project.bucket_name %></span>
-      </div>
-      <div>
-        <table class="table" id="envTable">
-          <tr>
-            <th>Environment</th>
-            <th>Bucket</th>
-            <th>Version</th>
-            <th>
-              <span id="btnNewEnv" class="btn bt-link glyphicon glyphicon-plus-sign"></span>
-            </th>
-          </tr>
-          <% @project.environments.each do |e| %>
-            <tr>
-              <td><%= e.name %></td>
-              <td><%= e.bucket_name %></td>
-              <td><span class="badge"><%= e.version %></span></td>
-              <td class="center">
-                <div class="btn-group">
-                  <button class="btn btn-default btn-sm dropdown-toggle" type="button"
-                                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Actions
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#" class="version-modal" data-id="<%= e.id %>">Deploy</a></li>
-                    <li><a href="#" class="replace-modal" data-id="<%= e.id %>">Replace</a></li>
-                    <li><a href="#" class="remove-env" data-id="<%= e.id %>">Remove</a></li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </table>
-      </div>
-    </div>
-  </section>
-</div>
-<div class="modal fade" tabindex="-1" role="dialog" id="envModal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Envrionment</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="envName" class="control-label">Name:</label>
-          <input class="form-control" type="text" id="envName" name="envName">
-        </div>
-        <div class="form-group">
-          <label for="envBucket" class="control-label">Bucket:</label>
-          <input class="form-control" type="text" id="envBucket" name="envBucket">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="btnSaveEnv">Save</button>
-      </div>
-    </div>
+<section id="project" data-id="<%= @project.id %>">
+  <div class="form-group">
+    <label>Name: </label>
+    <span><%= @project.name %></span>
   </div>
-</div>
-<div class="modal fade" tabindex="-1" role="dialog" id="replaceModal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Replaces</h4>
-      </div>
-      <div class="modal-body">
-        <table id="replaceTable" class="table">
-          <tr>
-            <th>File</th>
-            <th>Key</th>
-            <th>Value</th>
-            <th></th>
-          </tr>
-          <tr>
-            <td>
-              <input id="repFile" name="repFile" type="text" class="form-control">
-            </td>
-            <td>
-              <input id="repKey" name="repKey" type="text" class="form-control">
-            </td>
-            <td>
-              <input id="repValue" name="repValue" type="text" class="form-control">
-            </td>
-            <td>
-              <span id="btnSaveRep"
-                    class="btn bt-link glyphicon glyphicon-plus-sign">
-              </span>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
+  <div class="form-group">
+    <label>Bucket: </label>
+    <span><%= @project.bucket_name %></span>
   </div>
-</div>
-<div class="modal fade" tabindex="-1" role="dialog" id="versionModal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Versions</h4>
-      </div>
-      <div class="modal-body">
-        <ul class="list-group" id="versionList">
-        </ul>
-      </div>
-    </div>
-  </div>
+</section>
+<div>
+  <table class="table" id="envTable">
+    <tr>
+      <th>Environment</th>
+      <th>Bucket</th>
+      <th>Version</th>
+      <th>
+        <a href="<%= new_project_environment_path(@project) %>">
+          <span class="btn btn-primary btn-sm glyphicon glyphicon-plus-sign"></span>
+        </a>
+      </th>
+    </tr>
+    <% @project.environments.each do |e| %>
+      <tr>
+        <td>
+          <a href="<%= project_environment_path(@project, e) %>"><%= e.name %></a>
+        </td>
+        <td><%= e.bucket_name %></td>
+        <td><span class="badge"><%= e.version %></span></td>
+        <td class="center">
+          <a href="/deploy?env=<%= e.id %>" class="btn btn-default btn-sm btn-deploy"
+             data-project="<%= @project.id %>"
+             data-id="<%= e.id %>">
+             <span class="glyphicon glyphicon-transfer"></span>
+          </a>
+          <a class="btn btn-default btn-sm" href="/projects/<%= @project.id  %>/environments/<%= e.id %>/edit">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+          <button class="btn btn-danger btn-sm btn-remove-env"
+             data-project="<%= @project.id %>"
+             data-id="<%= e.id %>">
+             <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 </div>

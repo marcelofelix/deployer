@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Project, type: :model do
   it 'new project' do
-    Project.create(name: 'Teste', bucket_name: 'teste')
+    Project.create(name: 'Teste', bucket_name: 'teste', region: 'x')
     expect(Project.count).to eq 1
   end
 
@@ -14,14 +14,14 @@ RSpec.describe Project, type: :model do
   end
 
   it 'duplicate name' do
-    Project.create(name: 'Teste', bucket_name: 'Teste')
-    Project.create(name: 'Teste', bucket_name: 'Teste1')
+    build(:project, name: 'Teste').save
+    build(:project, name: 'Teste').save
     expect(Project.count).to eq 1
   end
 
   it 'duplicate bucket_name' do
-    Project.create(name: 'Teste', bucket_name: 'Teste')
-    Project.create(name: 'Teste1', bucket_name: 'Teste')
+    build(:project, bucket_name: 'Teste').save
+    build(:project, bucket_name: 'Teste').save
     expect(Project.count).to eq 1
   end
 

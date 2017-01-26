@@ -1,21 +1,27 @@
 require 'storage'
-require 'pry'
 
 # Represents the process to deploys a version
 # to an environment
 class Deploy
   def initialize(env, version, opts = {})
     @env = env
-    @version = version.end_with?('/') ? version : "#{version}/"
+    @version = version
     @storage = opts.fetch(:storage, Storage.new)
+    @uploaded_files = []
   end
 
   def download(bucket = version_bucket)
-    bucket.list.each do |k|
-      storage.create k do |f|
-        bucket.download(k, f)
-      end
-    end
+    bucket.download(storage)
+  end
+
+  def current_version(bucket = env_bucket)
+    @current_version ||= bucket.list
+  end
+
+  def delete_last_version(bucket = env_bucket)
+    @current_version.each do |f|
+      bucket.remove(f) unless @uploaded_files.include? f
+    end if @current_version
   end
 
   def replace
@@ -25,11 +31,21 @@ class Deploy
   end
 
   def upload(bucket = env_bucket)
+    @uploaded_files = bucket.upload(storage)
+  end
+
+  def update_env
     env.version = version
     env.save
-    storage.files.each do |f|
-      bucket.upload(f.key, File.open(f.path))
-    end
+  end
+
+  def execute
+    current_version
+    download
+    replace
+    upload
+    delete_last_version
+    update_env
   end
 
   private
@@ -39,7 +55,7 @@ class Deploy
   end
 
   def version_bucket
-    @version_bucket ||= Bucket.new(env.project_bucket, prefix: version)
+    @version_bucket ||= Bucket.new(env.project_bucket, prefix: "#{version}/")
   end
 
   attr_reader :env, :version, :storage

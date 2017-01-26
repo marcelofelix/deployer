@@ -6,5 +6,6 @@ FactoryGirl.define do
   factory :project do
     name { generate(:project) }
     bucket_name { "bucket.#{name}" }
+    region 'us-east-1'
   end
 end

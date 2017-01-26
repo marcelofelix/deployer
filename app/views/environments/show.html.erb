@@ -1,0 +1,46 @@
+<section>
+  <div class="form-group">
+    <label>Name: </label>
+    <span><%= @env.name %></span>
+  </div>
+  <div class="form-group">
+    <label>Bucket: </label>
+    <span><%= @env.bucket_name %></span>
+  </div>
+</section>
+<div>
+  <table class="table">
+    <tr>
+      <th>File</th>
+      <th>key</th>
+      <th>Value</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td><input id="file" name="file" class="form-control"></td>
+      <td><input id="key" name="key" class="form-control"></td>
+      <td><input id="value" name="value" class="form-control"></td>
+      <td>
+        <button id="btnAddReplace"
+                class="btn btn-primary btn-sm"
+                data-project="<%= @env.project.id %>"
+                data-env="<%= @env.id %>">
+                Add
+        </button>
+      </td>
+    </tr>
+    <% @env.replaces.each do |r| %>
+      <tr>
+        <td><%= r.file %></td>
+        <td><%= r.key %></td>
+        <td><%= r.value %></td>
+        <td>
+          <a class="btn btn-link smal remove-replace"
+             data-id="<%= r.id %>">
+             <span class="glyphicon glyphicon-remove"></span>
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

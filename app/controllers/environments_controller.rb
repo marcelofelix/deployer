@@ -1,26 +1,40 @@
 # Environment controller
 class EnvironmentsController < ApplicationController
+  def new
+    @env = Environment.new
+    @action = project_environments_path(project)
+    @method = 'post'
+  end
+
+  def edit
+    env
+    @action = project_environment_path(project, env)
+    @method = 'put'
+  end
+
   def create
     @env = Environment.new(environment_params)
     @env.project = project
     if @env.save
-      render 'index'
+      redirect_to project_path project
     else
-      respond_to do
-        format.html
-        format.json { render json: @env.errors.messages }
-      end
+      render 'new'
+    end
+  end
+
+  def update
+    if env.update_attributes(environment_params)
+      redirect_to project_path(env.project)
+    else
+      render 'edit'
     end
   end
 
   def add_replace
     replace_param = params.require(:replace).permit(:file, :key, :value)
     @replace = Replace.new(replace_param)
-    @replace.environment = environment
-    if @replace.save
-      render json: @replace
-    else
-    end
+    @replace.env = env
+    @replace.save
   end
 
   def remove_replace
@@ -29,24 +43,16 @@ class EnvironmentsController < ApplicationController
   end
 
   def destroy
-    environment.destroy
-  end
-
-  def deploy
-    version = params.require(:version).to_s
-    deploy = Deploy.new(environment, version)
-    deploy.download
-    deploy.replace
-    deploy.upload
+    env.destroy
   end
 
   def show
-    render json: environment, include: [:replaces]
+    env
   end
 
   private
 
-  def environment
+  def env
     @env ||= Environment.find(params[:id])
   end
 
@@ -55,6 +61,6 @@ class EnvironmentsController < ApplicationController
   end
 
   def environment_params
-    params.require(:environment).permit(:name, :version, :bucket_name)
+    params.require(:environment).permit(:name, :bucket_name, :region)
   end
 end

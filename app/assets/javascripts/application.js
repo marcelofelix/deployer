@@ -17,5 +17,5 @@
 //= require handlebars.runtime
 //= require axios
 //= require services
-//= require projects
-//= require_tree ./templates
+//= require project/show
+//= require environment/show
