@@ -33,7 +33,7 @@ class EnvironmentsController < ApplicationController
   def add_replace
     replace_param = params.require(:replace).permit(:file, :key, :value)
     @replace = Replace.new(replace_param)
-    @replace.env = env
+    @replace.environment = env
     @replace.save
   end
 
