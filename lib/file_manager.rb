@@ -8,7 +8,7 @@ class FileManager
 
   def self.create_file_at(directory, file)
     absolute_path = "#{directory}#{file}"
-    create_dir Pathname.new(directory).dirname
+    create_dir Pathname.new(absolute_path).dirname
     File.open(absolute_path, 'wb') do |f|
       yield f
     end

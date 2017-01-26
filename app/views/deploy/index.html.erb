@@ -14,7 +14,6 @@
         <tr>
           <th></th>
           <th>Version</th>
-          <th>Date</th>
         </tr>
         <% @env.project_versions.each do |v| %>
           <tr>
@@ -22,7 +21,6 @@
               <input type="radio" name="version" value="<%= v %>">
             </td>
             <td><%= v %></td>
-            <td></td>
           </tr>
         <% end %>
       </table>
