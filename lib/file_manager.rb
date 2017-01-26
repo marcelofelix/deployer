@@ -15,6 +15,7 @@ class FileManager
   end
 
   def self.replace(directory, file, key, value)
+    binding.pry
     text = File.read("#{directory}#{file}")
     replaced = text.gsub(key, value)
     File.open(file, 'w') { |f| f.puts replaced }
