@@ -4,10 +4,9 @@ require 'securerandom'
 # Represents a temporary file e should be used to store file from bucket
 # before update then to another bucket
 class Storage
-  attr_reader :directory, :keys
+  attr_reader :keys
 
-  def initialize(manager: FileManager)
-    @directory = "#{Rails.root}/tmp/files/#{SecureRandom.uuid}/"
+  def initialize(manager: FileManager.new)
     @manager = manager
     @keys = []
   end
@@ -15,7 +14,7 @@ class Storage
   def create(key)
     unless key.empty? || key.end_with?('/')
       keys << key
-      manager.create_file_at(directory, key) do |f|
+      manager.create_file_at(key) do |f|
         yield f if block_given?
       end
     end
@@ -23,17 +22,17 @@ class Storage
 
   def open(key)
     raise "Key #{key} not found" unless keys.include? key
-    manager.open(directory, key)
+    manager.open(key)
   end
 
   def replace(file, key, value)
     @keys.each do |k|
-      manager.replace(directory, k, key, value) if k.end_with? file
+      manager.replace(k, key, value) if k.end_with? file
     end
   end
 
   def remove
-    manager.remove(@directory)
+    manager.remove
   end
 
   private

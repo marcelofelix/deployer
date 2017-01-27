@@ -2,30 +2,41 @@ require 'fileutils'
 
 # Encapsulates file operations
 class FileManager
-  def self.create_dir(path)
+
+  def initialize
+    @base = "#{Rails.root}/tmp/files/#{SecureRandom.uuid}/"
+  end
+
+  def create_dir(path)
     FileUtils.mkdir_p path
   end
 
-  def self.create_file_at(directory, file)
-    absolute_path = "#{directory}#{file}"
-    create_dir Pathname.new(absolute_path).dirname
-    File.open(absolute_path, 'wb') do |f|
+  def create_file_at(file)
+    create_dir Pathname.new(path_to(file)).dirname
+    File.open(path_to(file), 'wb') do |f|
       yield f
     end
   end
 
-  def self.replace(directory, file, key, value)
-    binding.pry
-    text = File.read("#{directory}#{file}")
+  def replace(file, key, value)
+    text = File.read path_to file
     replaced = text.gsub(key, value)
-    File.open(file, 'w') { |f| f.puts replaced }
+    File.open(path_to(file), 'w') { |f| f.puts replaced }
   end
 
-  def self.remove(path)
-    FileUtils.rm_rf path
+  def remove
+    FileUtils.rm_rf base
   end
 
-  def self.open(directory, file)
-    File.open("#{directory}#{file}")
+  def open(file)
+    File.open(path_to(file))
   end
+
+  private
+
+  def path_to(file)
+    "#{base}#{file}"
+  end
+
+  attr_reader :base
 end

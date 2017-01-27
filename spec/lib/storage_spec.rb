@@ -2,15 +2,14 @@ require 'rails_helper'
 require 'storage'
 
 RSpec.describe Storage do
-  let(:manager) { FileManager }
+  let(:manager) { FileManager.new }
   let(:storage) { Storage.new(manager: manager) }
   after { storage.remove }
 
   it 'test that dont create empty folder' do
 
     key = 'app/images/image1.jpg'
-    expect(manager).to receive(:create_file_at)
-      .with(storage.directory, key)
+    expect(manager).to receive(:create_file_at).with(key)
 
     storage.create('app/')
     storage.create('app/images/')
@@ -33,7 +32,7 @@ RSpec.describe Storage do
 
     allow(manager).to receive(:create_file_at)
     expect(manager).to receive(:replace)
-      .with(storage.directory, file, key, value)
+      .with(file, key, value)
 
     storage.create(file)
     storage.replace(file, key, value)
@@ -44,7 +43,7 @@ RSpec.describe Storage do
     key = 'main.js'
     allow(manager).to receive(:create_file_at)
     expect(manager).to receive(:open)
-      .with(storage.directory, key)
+      .with(key)
 
     storage.create(key)
     storage.open key
