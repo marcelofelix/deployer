@@ -23,4 +23,19 @@ RSpec.describe Storage do
     manager.create_file_at(file) { called = true }
     expect(called).to eq true
   end
+
+  it 'teste replace' do
+    file = 'some file'
+    key = 'x'
+    value = 'y'
+    content = 'x'
+
+    expect(File).to receive(:read)
+      .with(manager.path_to file).and_return content
+
+    expect(File).to receive(:open)
+      .with(manager.path_to(file), 'w').and_return content
+
+    manager.replace(file, key, value)
+  end
 end

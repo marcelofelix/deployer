@@ -32,11 +32,11 @@ class FileManager
     File.open(path_to(file))
   end
 
-  private
-
   def path_to(file)
     "#{base}#{file}"
   end
+
+  private
 
   attr_reader :base
 end
