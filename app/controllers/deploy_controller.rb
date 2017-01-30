@@ -1,6 +1,8 @@
 # Handle action related to Deploy, list versions that can be
 # deployied into a Environment and handle the process to deploy
 class DeployController < ApplicationController
+  before_action :authorize
+
   def index
     env
   end

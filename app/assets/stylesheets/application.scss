@@ -1,2 +1,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "home";
+
+.main-container {
+  width: 800px;
+  margin: auto auto;
+}

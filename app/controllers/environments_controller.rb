@@ -1,5 +1,7 @@
 # Environment controller
 class EnvironmentsController < ApplicationController
+  before_action :authorize
+
   def new
     @env = Environment.new
     @action = project_environments_path(project)

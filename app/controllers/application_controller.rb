@@ -1,15 +1,14 @@
 class ApplicationController < ActionController::Base
-  unless Rails.env.test?
-    before_filter :authenticate
-    protect_from_forgery
+  protect_from_forgery with: :exception
+  helper_method :current_user
 
+  def authorize
+    redirect_to '/auth/github' unless current_user
   end
 
-  protected
+  private
 
-  def authenticate
-    authenticate_or_request_with_http_basic do |username, password|
-      username == Figaro.env.user && password == Figaro.env.password
-    end
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 end
