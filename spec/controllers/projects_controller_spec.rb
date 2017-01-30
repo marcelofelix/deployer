@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe ProjectsController, type: :controller do
 
   before do
-    allow(controller).to receive(:current_user).and_return 'Eu'
+    allow(controller).to receive(:current_user)
+      .and_return create(:user, name: 'Marcelo')
   end
 
   it 'index' do

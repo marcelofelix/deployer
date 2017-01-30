@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Represents the environment of an application
 class Environment < ApplicationRecord
   validates :name, presence: true, uniqueness: true

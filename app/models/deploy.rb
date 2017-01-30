@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'storage'
 
 # Represents the process to deploys a version
@@ -19,9 +20,9 @@ class Deploy
   end
 
   def delete_last_version(bucket = env_bucket)
-    @current_version.each do |f|
+    @current_version&.each do |f|
       bucket.remove(f) unless @uploaded_files.include? f
-    end if @current_version
+    end
   end
 
   def replace

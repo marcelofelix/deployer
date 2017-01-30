@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe EnvironmentsController, type: :controller do
+  before do
+    allow(controller).to receive(:current_user)
+      .and_return create(:user, name: 'Marcelo')
+  end
+
   it 'create' do
     project = create(:project)
     post 'create', params: {

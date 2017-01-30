@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Environment controller
 class EnvironmentsController < ApplicationController
   before_action :authorize

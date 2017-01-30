@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+#
+# Contais the basic behavior of controllers
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user
