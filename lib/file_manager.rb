@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 require 'fileutils'
 
 # Encapsulates file operations
 class FileManager
-
   def initialize
     @base = "#{Rails.root}/tmp/files/#{SecureRandom.uuid}/"
   end

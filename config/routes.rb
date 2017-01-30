@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   delete '/replaces/:id', to: 'environments#remove_replace'
 
   post '/environments/:id/deploy', to: 'environments#deploy'
-  root to: 'projects#index'
+  get '/auth/:provider/callback', to: 'sessions#create'
+  get '/signout', to: 'sessions#destroy', :as => :signout
+  root to: 'home#index'
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'file_manager'
 require 'securerandom'
 
@@ -12,11 +13,10 @@ class Storage
   end
 
   def create(key)
-    unless key.empty? || key.end_with?('/')
-      keys << key
-      manager.create_file_at(key) do |f|
-        yield f if block_given?
-      end
+    return if key.empty? || key.end_with?('/')
+    keys << key
+    manager.create_file_at(key) do |f|
+      yield f if block_given?
     end
   end
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'storage'
 
 # Represents a bucket at S3 and

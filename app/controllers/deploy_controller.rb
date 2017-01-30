@@ -1,6 +1,9 @@
+# frozen_string_literal: true
 # Handle action related to Deploy, list versions that can be
 # deployied into a Environment and handle the process to deploy
 class DeployController < ApplicationController
+  before_action :authorize
+
   def index
     env
   end
@@ -12,11 +15,6 @@ class DeployController < ApplicationController
   end
 
   private
-
-  def project
-    return unless params[:project_id]
-    @project ||= Project.find(params[:project_id])
-  end
 
   def env
     return unless params[:env]

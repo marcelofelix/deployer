@@ -1,7 +1,10 @@
+# frozen_string_literal: true
 #
 # Project controller
 #
 class ProjectsController < ApplicationController
+  before_action :authorize
+
   def index
     @projects = Project.all
   end

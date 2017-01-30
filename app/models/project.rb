@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Represents a project
 class Project < ApplicationRecord
   validates :name, presence: true, uniqueness: true
