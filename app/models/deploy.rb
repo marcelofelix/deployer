@@ -9,6 +9,7 @@ class Deploy
     @version = version
     @storage = opts.fetch(:storage, Storage.new)
     @uploaded_files = []
+    @metadata = {}
   end
 
   def download(bucket = version_bucket)
@@ -52,11 +53,13 @@ class Deploy
   private
 
   def env_bucket
-    @env_bucket ||= Bucket.new(env.bucket_name)
+    @env_bucket ||= Bucket.new(env.bucket_name, metadata: @metadata)
   end
 
   def version_bucket
-    @version_bucket ||= Bucket.new(env.project_bucket, prefix: "#{version}/")
+    @version_bucket ||= Bucket.new(env.project_bucket,
+                                   prefix: "#{version}/",
+                                   metadata: @metadata)
   end
 
   attr_reader :env, :version, :storage

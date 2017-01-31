@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
   end
 
   def belongs_to(org)
-    client.orgs.map{ |o| o[:login] }.include? org
+    client.orgs.map { |o| o[:login] }.include? org
   end
 
   def token

@@ -11,12 +11,14 @@ class Bucket
     @prefix = opts[:prefix]
     @region = opts.fetch(:region, 'us-east-1')
     @s3 = opts.fetch(:s3, Aws::S3::Client.new(region: region))
+    @content_types = opts.fetch(:metadata, {})
   end
 
   def download(storage)
     list.each do |k|
       storage.create k do |f|
-        s3.get_object({ bucket: name, key: add_prefix(k) }, target: f)
+        resp = s3.get_object({ bucket: name, key: add_prefix(k) }, target: f)
+        @content_types[k] = resp.content_type
       end
     end
   end
@@ -24,12 +26,7 @@ class Bucket
   def upload(storage)
     keys = storage.keys
     keys.each do |k|
-      s3.put_object(
-        acl: 'public-read',
-        bucket: name,
-        body: storage.open(k),
-        key: add_prefix(k)
-      )
+      s3.put_object(upload_param(k, storage.open(k)))
     end
     keys
   end
@@ -46,6 +43,16 @@ class Bucket
   end
 
   private
+
+  def upload_param(key, file)
+    {
+      acl: 'public-read',
+      bucket: name,
+      body: file,
+      key: add_prefix(key),
+      content_type: @content_types[key]
+    }.compact
+  end
 
   def del_prefix(value)
     value.sub(prefix.to_s, '')

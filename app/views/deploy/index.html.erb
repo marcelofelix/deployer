@@ -8,7 +8,7 @@
     <label class="control-label">Environment:</label>
     <%= @env.name %>
   </div>
-  <form action="" method="post">
+  <%= form_tag("/deploy?env=#{@env.id}", method: 'post') do %>
     <div class="form-group">
       <table class="table">
         <tr>
@@ -28,6 +28,6 @@
     <div class="text-right">
       <button type="submit" class="btn btn-primary">Deploy</button>
     </div>
-  </form>
+  <% end %>
 <% end %>
 

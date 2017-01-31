@@ -33,7 +33,7 @@ RSpec.describe Bucket, type: :model do
 
     expect(client).to receive(:get_object).with(
       { bucket: 'bucket_name', key: 'file.js' }, target: file
-    )
+    ).and_return double(content_type: 'file')
 
     bucket = Bucket.new('bucket_name', s3: client)
     allow(bucket).to receive(:list).and_return ['file.js']
@@ -47,7 +47,7 @@ RSpec.describe Bucket, type: :model do
 
     expect(client).to receive(:get_object).with(
       { bucket: 'bucket_name', key: 'teste/file.js' }, target: file
-    )
+    ).and_return double(content_type: 'file')
 
     bucket = Bucket.new('bucket_name', s3: client, prefix: 'teste/')
     allow(bucket).to receive(:list).and_return ['file.js']

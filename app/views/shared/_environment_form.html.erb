@@ -1,5 +1,5 @@
 <section>
-  <form action="<%= @action %>" method="post">
+  <%= form_tag(@action, method: 'post') do %>
     <input type="hidden" name="_method" value="<%= @method %>">
     <div class="form-group">
       <label for="name" class="control-label">Name: </label>
@@ -12,7 +12,7 @@
              class="form-control"
              id="bucket_name"
              name="environment[bucket_name]" value="<%= @env.bucket_name %>">
-       <span> <%= @env.errors[:bucket_name].first %> </span>
+             <span> <%= @env.errors[:bucket_name].first %> </span>
     </div>
     <div class="form-group">
       <label>Region: </label>
@@ -21,5 +21,5 @@
     <div class="text-right">
       <button type="submit" class="btn btn-primary">Save</button>
     </div>
-  </form>
+  <% end %>
 </section>

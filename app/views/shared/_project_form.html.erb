@@ -1,5 +1,5 @@
 <section id="project" data-id="<%= @project.id %>">
-  <form action="<%= @action %>" method="post">
+  <%= form_tag(@action, method: 'post') do %>
     <input type="hidden" name="_method" value="<%= @method %>">
     <div class="form-group">
       <label for="name" class="control-label">Name: </label>
@@ -18,6 +18,6 @@
     <div class="text-right">
       <button type="submit" class="btn btn-primary">Save</button>
     </div>
-  </form>
+  <% end %>
 </section>
 
