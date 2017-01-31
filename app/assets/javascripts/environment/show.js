@@ -3,7 +3,7 @@ $(function() {
     $('.remove-replace').click(function() {
       const el = $(this);
       const id = el.data('id');
-      axios.delete('/replaces/' + id)
+      axios.delete('/replaces/' + id + '?authenticity_token=' + token())
         .then(function() {
           el.closest('tr').remove();
         });
@@ -13,7 +13,7 @@ $(function() {
       const el = $(this);
       const project = el.data('project');
       const env = el.data('env');
-      axios.post('/replaces/', {
+      axios.post('/replaces?authenticity_token=' + token() , {
         project_id: project,
         id: env,
         replace: {
@@ -23,5 +23,9 @@ $(function() {
         }
       }).then(function() { location.reload(); });
     });
+
+    function token() {
+      return $('meta[name=csrf-token]').attr('content');
+    }
   }
 });
