@@ -22,6 +22,7 @@ gem 'handlebars_assets'
 gem 'figaro'
 gem 'rails_12factor', group: :production
 gem 'omniauth-github'
+gem 'octokit'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

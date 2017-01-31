@@ -3,8 +3,7 @@
 # Session controller
 class SessionsController < ApplicationController
   def create
-    company = auth.dig('extra', 'raw_info', 'company')
-    if company == 'VivaReal'
+    if belongs_to 'VivaReal'
       user = find_user || create_user
       session[:user_id] = user.id
       redirect_to root_url
@@ -19,6 +18,18 @@ class SessionsController < ApplicationController
   end
 
   private
+
+  def client
+    @client ||= Octokit::Client.new(access_token: token)
+  end
+
+  def belongs_to(org)
+    client.orgs.map{ |o| o[:login] }.include? org
+  end
+
+  def token
+    auth.dig('credentials', 'token')
+  end
 
   def auth
     @auth ||= request.env['omniauth.auth']

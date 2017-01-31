@@ -8,6 +8,7 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   it 'Test that signin with user already exists create a session' do
+    expect(controller).to receive(:belongs_to).and_return true
     user = create(:user, name: 'Marcelo')
     expect(User).to receive(:find_by_provider_and_uid).and_return user
 
@@ -19,6 +20,7 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   it 'Test that signup create a user and a session' do
+    expect(controller).to receive(:belongs_to).and_return true
     user = create(:user, name: 'Marcelo')
     expect(User).to receive(:find_by_provider_and_uid).and_return nil
     expect(User).to receive(:create_with_omniauth).and_return user
@@ -31,6 +33,7 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   it 'Test that signup with user without valid company dont create session' do
+    expect(controller).to receive(:belongs_to).and_return false
     request.env['omniauth.auth'] = {
       'extra' => { 'raw_info' => { 'company' => 'X' }},
     }
