@@ -53,11 +53,14 @@ class Deploy
   private
 
   def env_bucket
-    @env_bucket ||= Bucket.new(env.bucket_name, metadata: @metadata)
+    @env_bucket ||= Bucket.new(env.bucket_name,
+                               region: env.region,
+                               metadata: @metadata)
   end
 
   def version_bucket
     @version_bucket ||= Bucket.new(env.project_bucket,
+                                   region: env.project.region,
                                    prefix: "#{version}/",
                                    metadata: @metadata)
   end
