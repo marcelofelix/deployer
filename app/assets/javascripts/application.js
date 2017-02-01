@@ -11,11 +11,10 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap-sprockets
 //= require jquery_ujs
+//= require bootstrap-sprockets
 //= require lodash
 //= require handlebars.runtime
 //= require axios
 //= require services
-//= require project/show
 //= require environment/show

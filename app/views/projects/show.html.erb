@@ -27,7 +27,7 @@
         </td>
         <td><%= e.bucket_name %></td>
         <td><span class="badge"><%= e.version %></span></td>
-        <td class="center">
+        <td class="center row">
           <a href="/deploy?env=<%= e.id %>" class="btn btn-default btn-sm btn-deploy"
              data-project="<%= @project.id %>"
              data-id="<%= e.id %>">
@@ -36,11 +36,10 @@
           <a class="btn btn-default btn-sm" href="/projects/<%= @project.id  %>/environments/<%= e.id %>/edit">
             <span class="glyphicon glyphicon-pencil"></span>
           </a>
-          <button class="btn btn-danger btn-sm btn-remove-env"
-             data-project="<%= @project.id %>"
-             data-id="<%= e.id %>">
-             <span class="glyphicon glyphicon-remove"></span>
-          </button>
+          <%= link_to project_environment_path(@project, e), data: { confirm: 'Deseja remover?' },
+            method: :delete, class: 'btn btn-danger btn-sm' do  %>
+            <span class="glyphicon glyphicon-remove inline"></span>
+          <% end %>
         </td>
       </tr>
     <% end %>

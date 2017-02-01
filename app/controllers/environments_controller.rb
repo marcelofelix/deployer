@@ -47,6 +47,7 @@ class EnvironmentsController < ApplicationController
 
   def destroy
     env.destroy
+    redirect_to project_path env.project
   end
 
   def show

@@ -6,8 +6,11 @@ const projectService = {
 
 const envService = {
 
-  remove: function(project, id) {
-    return axios.delete('/projects/' + project + '/environments/' + id);
+  remove: function(project, id, token) {
+    let url = '/projects/';
+    url += project + '/environments/' + id;
+    url += '?authenticity_token=' + token;
+    return axios.delete(url);
   },
 
   removeReplace: function(id) {
