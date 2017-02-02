@@ -38,6 +38,7 @@ class EnvironmentsController < ApplicationController
     @replace = Replace.new(replace_param)
     @replace.environment = env
     @replace.save
+    redirect_to project_environment_path(project, env)
   end
 
   def remove_replace

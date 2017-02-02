@@ -17,17 +17,16 @@
       <th></th>
     </tr>
     <tr>
-      <td><input id="file" name="file" class="form-control"></td>
-      <td><input id="key" name="key" class="form-control"></td>
-      <td><input id="value" name="value" class="form-control"></td>
-      <td>
-        <button id="btnAddReplace"
-                class="btn btn-primary btn-sm"
-                data-project="<%= @env.project.id %>"
-                data-env="<%= @env.id %>">
-                Add
-        </button>
-      </td>
+      <%= form_tag '/replaces', method: :post do %>
+        <input type="hidden" name="id" value="<%= @env.id %>">
+        <input type="hidden" name="project_id" value="<%= @env.project.id %>">
+        <td><input id="file" name="replace[file]" class="form-control"></td>
+        <td><input id="key" name="replace[key]" class="form-control"></td>
+        <td><input id="value" name="replace[value]" class="form-control"></td>
+        <td>
+          <button type="submit" class="btn btn-primary btn-sm">Add</button>
+        </td>
+      <% end %>
     </tr>
     <% @env.replaces.each do |r| %>
       <tr>
