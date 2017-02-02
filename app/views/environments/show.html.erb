@@ -20,9 +20,18 @@
       <%= form_tag '/replaces', method: :post do %>
         <input type="hidden" name="id" value="<%= @env.id %>">
         <input type="hidden" name="project_id" value="<%= @env.project.id %>">
-        <td><input id="file" name="replace[file]" class="form-control"></td>
-        <td><input id="key" name="replace[key]" class="form-control"></td>
-        <td><input id="value" name="replace[value]" class="form-control"></td>
+        <td>
+          <input id="file" name="replace[file]" class="form-control" value="<%= @replace.file %>">
+          <span><%= @replace.errors[:file].first %></span>
+        </td>
+        <td>
+          <input id="key" name="replace[key]" class="form-control" value="<%= @replace.key %>">
+          <span><%= @replace.errors[:key].first %></span>
+        </td>
+        <td>
+          <input id="value" name="replace[value]" class="form-control" value="<%= @replace.value %>">
+          <span><%= @replace.errors[:value].first %></span>
+        </td>
         <td>
           <button type="submit" class="btn btn-primary btn-sm">Add</button>
         </td>
@@ -34,10 +43,10 @@
         <td><%= r.key %></td>
         <td><%= r.value %></td>
         <td>
-          <a class="btn btn-link smal remove-replace"
-             data-id="<%= r.id %>">
-             <span class="glyphicon glyphicon-remove"></span>
-          </a>
+          <%= link_to "/replaces/#{r.id}", data: { confirm: 'Deseja remover?' },
+            method: :delete, class: 'btn btn-danger btn-sm' do  %>
+            <span class="glyphicon glyphicon-remove"></span>
+          <% end %>
         </td>
       </tr>
     <% end %>

@@ -52,7 +52,6 @@ GEM
     aws-sdk-resources (2.7.3)
       aws-sdk-core (= 2.7.3)
     aws-sigv4 (1.0.0)
-    axios_rails (0.14.0)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -96,11 +95,6 @@ GEM
       guard (~> 2.8)
       guard-compat (~> 1.0)
       multi_json (~> 1.8)
-    handlebars_assets (0.23.1)
-      execjs (~> 2.0)
-      multi_json (~> 1.0)
-      sprockets (>= 2.0.0)
-      tilt (>= 1.2)
     hashie (3.4.6)
     http_parser.rb (0.6.0)
     i18n (0.7.0)
@@ -117,8 +111,6 @@ GEM
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    lodash-rails (4.17.2)
-      railties (>= 3.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.11)
@@ -283,17 +275,14 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk (~> 2)
-  axios_rails (~> 0.14.0)
   bootstrap-sass
   factory_girl_rails
   figaro
   guard
   guard-livereload (~> 2.5)
-  handlebars_assets
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
-  lodash-rails
   octokit
   omniauth-github
   pg

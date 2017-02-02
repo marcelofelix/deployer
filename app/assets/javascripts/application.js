@@ -13,8 +13,3 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
-//= require lodash
-//= require handlebars.runtime
-//= require axios
-//= require services
-//= require environment/show

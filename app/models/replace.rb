@@ -5,4 +5,8 @@ class Replace < ApplicationRecord
   validates :file, presence: true
   validates :key, presence: true
   validates :value, presence: true
+
+  def project
+    environment.project
+  end
 end

@@ -37,13 +37,17 @@ class EnvironmentsController < ApplicationController
     replace_param = params.require(:replace).permit(:file, :key, :value)
     @replace = Replace.new(replace_param)
     @replace.environment = env
-    @replace.save
-    redirect_to project_environment_path(project, env)
+    if @replace.save
+      redirect_to project_environment_path(project, env)
+    else
+      render 'show'
+    end
   end
 
   def remove_replace
     replace = Replace.find(params[:id])
     replace.delete
+    redirect_to project_environment_path(replace.project, replace.environment)
   end
 
   def destroy
@@ -53,6 +57,7 @@ class EnvironmentsController < ApplicationController
 
   def show
     env
+    @replace = Replace.new
   end
 
   private

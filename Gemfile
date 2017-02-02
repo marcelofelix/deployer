@@ -7,7 +7,6 @@ git_source(:github) do |repo_name|
 end
 
 gem 'aws-sdk', '~> 2'
-gem 'axios_rails', '~> 0.14.0'
 gem 'bootstrap-sass'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
@@ -17,8 +16,6 @@ gem 'rails', '~> 5.0.1'
 gem 'sass-rails', '~> 5.0'
 gem 'simplecov', :require => false, :group => :test
 gem 'uglifier', '>= 1.3.0'
-gem 'lodash-rails'
-gem 'handlebars_assets'
 gem 'figaro'
 gem 'rails_12factor', group: :production
 gem 'omniauth-github'
