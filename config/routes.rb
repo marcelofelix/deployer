@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :projects do
-    resources :environments
+    resources :environments, shallow: true
   end
   resources :deploy, only: :index
   post '/deploy', to: 'deploy#deploy'

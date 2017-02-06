@@ -1,23 +1,18 @@
-<section id="project" data-id="<%= @project.id %>">
-  <%= form_tag(@action, method: 'post') do %>
-    <input type="hidden" name="_method" value="<%= @method %>">
-    <div class="form-group">
-      <label for="name" class="control-label">Name: </label>
-      <input type="text" class="form-control" id="name" name="project[name]" value="<%= @project.name %>">
-      <span><%= @project.errors[:name].first %></span>
-    </div>
-    <div class="form-group">
-      <label>Bucket: </label>
-      <input type="text" class="form-control" id="bucket_name" name="project[bucket_name]" value="<%= @project.bucket_name %>">
-      <%= @project.errors[:bucket_name].first %>
-    </div>
-    <div class="form-group">
-      <label>Region: </label>
-      <%= render partial: 'shared/regions', locals: { model: :project, field: :region } %>
-    </div>
-    <div class="text-right">
-      <button type="submit" class="btn btn-primary">Save</button>
-    </div>
-  <% end %>
-</section>
+<div class="form-group">
+  <label for="name" class="control-label">Name: </label>
+  <input type="text" class="form-control" id="name" name="project[name]" value="<%= @project.name %>">
+  <span><%= @project.errors[:name].first %></span>
+</div>
+<div class="form-group">
+  <label>Bucket: </label>
+  <input type="text" class="form-control" id="bucket_name" name="project[bucket_name]" value="<%= @project.bucket_name %>">
+  <%= @project.errors[:bucket_name].first %>
+</div>
+<div class="form-group">
+  <label>Region: </label>
+  <%= render partial: 'shared/regions', locals: { model: :project, field: :region } %>
+</div>
+<div class="text-right">
+  <button type="submit" class="btn btn-primary">Save</button>
+</div>
 

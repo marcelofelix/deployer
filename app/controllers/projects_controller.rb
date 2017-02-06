@@ -10,8 +10,6 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @action = projects_path
-    @method = 'post'
     @project = Project.new
   end
 
@@ -20,8 +18,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @action = project_path project
-    @method = 'put'
+    project
   end
 
   def create

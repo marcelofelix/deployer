@@ -1,1 +1,5 @@
-<%= render 'shared/project_form' %>
+<section>
+  <%= form_for @project, url: projects_path do %>
+    <%= render 'shared/project_form' %>
+  <% end %>
+</section>
