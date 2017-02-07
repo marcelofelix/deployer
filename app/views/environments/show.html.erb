@@ -17,7 +17,7 @@
       <th></th>
     </tr>
     <tr>
-      <%= form_tag '/replaces', method: :post do %>
+      <%= form_for @replace, url: environment_replaces_path(@env) do %>
         <input type="hidden" name="id" value="<%= @env.id %>">
         <input type="hidden" name="project_id" value="<%= @env.project.id %>">
         <td>
@@ -43,7 +43,7 @@
         <td><%= r.key %></td>
         <td><%= r.value %></td>
         <td>
-          <%= link_to "/replaces/#{r.id}", data: { confirm: 'Deseja remover?' },
+          <%= link_to replace_path(r), data: { confirm: 'Deseja remover?' },
             method: :delete, class: 'btn btn-danger btn-sm' do  %>
             <span class="glyphicon glyphicon-remove"></span>
           <% end %>
