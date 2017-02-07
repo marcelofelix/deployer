@@ -1,1 +1,5 @@
-<%= render 'shared/environment_form' %>
+<section>
+  <%= form_for @env, url: project_environments_path do %>
+    <%= render 'shared/environment_form' %>
+  <% end %>
+</section>

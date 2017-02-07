@@ -5,14 +5,10 @@ class EnvironmentsController < ApplicationController
 
   def new
     @env = Environment.new
-    @action = project_environments_path(project)
-    @method = 'post'
   end
 
   def edit
     env
-    @action = project_environment_path(project, env)
-    @method = 'put'
   end
 
   def create
@@ -31,23 +27,6 @@ class EnvironmentsController < ApplicationController
     else
       render 'edit'
     end
-  end
-
-  def add_replace
-    replace_param = params.require(:replace).permit(:file, :key, :value)
-    @replace = Replace.new(replace_param)
-    @replace.environment = env
-    if @replace.save
-      redirect_to project_environment_path(project, env)
-    else
-      render 'show'
-    end
-  end
-
-  def remove_replace
-    replace = Replace.find(params[:id])
-    replace.delete
-    redirect_to project_environment_path(replace.project, replace.environment)
   end
 
   def destroy

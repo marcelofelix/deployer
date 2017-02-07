@@ -13,6 +13,7 @@
     <tr>
       <th>Environment</th>
       <th>Bucket</th>
+      <th>Region</th>
       <th>Version</th>
       <th>
         <a href="<%= new_project_environment_path(@project) %>">
@@ -23,9 +24,10 @@
     <% @project.environments.each do |e| %>
       <tr>
         <td>
-          <a href="<%= project_environment_path(@project, e) %>"><%= e.name %></a>
+          <a href="<%= environment_path(e) %>"><%= e.name %></a>
         </td>
         <td><%= e.bucket_name %></td>
+        <td><%= e.region %></td>
         <td><span class="badge"><%= e.version %></span></td>
         <td class="center row">
           <a href="/deploy?env=<%= e.id %>" class="btn btn-default btn-sm btn-deploy"
@@ -33,10 +35,10 @@
              data-id="<%= e.id %>">
              <span class="glyphicon glyphicon-transfer"></span>
           </a>
-          <a class="btn btn-default btn-sm" href="/projects/<%= @project.id  %>/environments/<%= e.id %>/edit">
+          <a class="btn btn-default btn-sm" href="<%= edit_environment_path(e) %>">
             <span class="glyphicon glyphicon-pencil"></span>
           </a>
-          <%= link_to project_environment_path(@project, e), data: { confirm: 'Deseja remover?' },
+          <%= link_to environment_path(e), data: { confirm: 'Deseja remover?' },
             method: :delete, class: 'btn btn-danger btn-sm' do  %>
             <span class="glyphicon glyphicon-remove inline"></span>
           <% end %>
