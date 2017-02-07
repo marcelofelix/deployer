@@ -1,3 +1,8 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="<%= projects_path %>">Projects</a></li>
+  <li><a href="<%= project_path(@project) %>"><%= @project.name %></a></li>
+</ol>
 <section>
   <%= form_for @env, url: project_environments_path do %>
     <%= render 'shared/environment_form' %>

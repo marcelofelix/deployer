@@ -1,6 +1,6 @@
 <div class="form-group">
   <label for="name" class="control-label">Name: </label>
-  <input type="text" class="form-control" id="name" name="environment[name]" value="<%= @env.name %>">
+  <input type="text" class="form-control" id="name" name="env[name]" value="<%= @env.name %>">
   <span><%= @env.errors[:name].first %></span>
 </div>
 <div class="form-group">
@@ -8,12 +8,13 @@
   <input type="text"
          class="form-control"
          id="bucket_name"
-         name="environment[bucket_name]" value="<%= @env.bucket_name %>">
+         name="env[bucket_name]" value="<%= @env.bucket_name %>">
          <span> <%= @env.errors[:bucket_name].first %> </span>
 </div>
 <div class="form-group">
   <label>Region: </label>
-  <%= render partial: 'shared/regions', locals: { model: :env, field: :region } %>
+  <%= render partial: 'shared/regions', locals: { model: :env } %>
+  <span> <%= @env.errors[:region].first %> </span>
 </div>
 <div class="text-right">
   <button type="submit" class="btn btn-primary">Save</button>

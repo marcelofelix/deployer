@@ -1,3 +1,7 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="<%= projects_path %>">Projects</a></li>
+</ol>
 <section>
   <%= form_for @project, url: projects_path do %>
     <%= render 'shared/project_form' %>

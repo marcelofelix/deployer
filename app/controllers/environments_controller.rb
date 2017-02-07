@@ -4,6 +4,7 @@ class EnvironmentsController < ApplicationController
   before_action :authorize
 
   def new
+    project
     @env = Environment.new
   end
 
@@ -50,6 +51,6 @@ class EnvironmentsController < ApplicationController
   end
 
   def environment_params
-    params.require(:environment).permit(:name, :bucket_name, :region)
+    params.require(:env).permit(:name, :bucket_name, :region)
   end
 end

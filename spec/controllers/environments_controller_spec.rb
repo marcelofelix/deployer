@@ -10,7 +10,7 @@ RSpec.describe EnvironmentsController, type: :controller do
     project = create(:project)
     post 'create', params: {
       project_id: project.id,
-      environment: {
+      env: {
         name: 'Production',
         version: '233',
         bucket_name: 'production.bucket',
