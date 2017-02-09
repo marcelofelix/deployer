@@ -6,7 +6,7 @@ class Project < ApplicationRecord
   has_many :environments
   has_many :versions
 
-  def list_versions(bucket = Bucket.new(bucket_name))
+  def list_versions(bucket = Bucket.new(bucket_name, region: region))
     @versions ||= bucket.list.map { |k| k.split '/' }
                         .delete_if { |k| k.size < 2 }
                         .map(&:first).uniq
