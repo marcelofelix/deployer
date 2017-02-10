@@ -14,15 +14,15 @@
   </div>
 </section>
 <div>
-  <table class="table">
-    <tr>
-      <th>File</th>
-      <th>key</th>
-      <th>Value</th>
-      <th></th>
-    </tr>
-    <tr>
-      <%= form_for @replace, url: environment_replaces_path(@env) do %>
+  <%= form_for @replace, url: environment_replaces_path(@env) do %>
+    <table class="table">
+      <tr>
+        <th>File</th>
+        <th>key</th>
+        <th>Value</th>
+        <th></th>
+      </tr>
+      <tr>
         <input type="hidden" name="id" value="<%= @env.id %>">
         <input type="hidden" name="project_id" value="<%= @env.project.id %>">
         <td>
@@ -40,20 +40,20 @@
         <td>
           <button type="submit" class="btn btn-primary btn-sm">Add</button>
         </td>
-      <% end %>
-    </tr>
-    <% @env.replaces.each do |r| %>
-      <tr>
-        <td><%= r.file %></td>
-        <td><%= r.key %></td>
-        <td><%= r.value %></td>
-        <td>
-          <%= link_to replace_path(r), data: { confirm: 'Deseja remover?' },
-            method: :delete, class: 'btn btn-danger btn-sm' do  %>
-            <span class="glyphicon glyphicon-remove"></span>
-          <% end %>
-        </td>
       </tr>
-    <% end %>
-  </table>
+      <% @env.replaces.each do |r| %>
+        <tr>
+          <td><%= r.file %></td>
+          <td><%= r.key %></td>
+          <td><%= r.value %></td>
+          <td>
+            <%= link_to replace_path(r), data: { confirm: 'Deseja remover?' },
+              method: :delete, class: 'btn btn-danger btn-sm' do  %>
+              <span class="glyphicon glyphicon-remove"></span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
 </div>
