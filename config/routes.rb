@@ -3,11 +3,13 @@ Rails.application.routes.draw do
     resources :environments, shallow: true do
       resources :replaces, shallow: true
     end
+    resources :versions, shallow: true
   end
   resources :deploy, only: :index
   post '/deploy', to: 'deploy#deploy'
 
-  get '/projects/:id/versions', to: 'projects#versions'
+  get '/projects/:project_id/versions/sync', to: 'versions#sync'
+  post '/projects/:project_id/versions/sync', to: 'versions#sync'
 
   post '/replaces', to: 'environments#add_replace'
   delete '/replaces/:id', to: 'environments#remove_replace'

@@ -1,0 +1,17 @@
+<%= form_tag "#{project_path(@project)}/versions/sync" do %>
+  <table class="table">
+    <tr>
+      <th>Version</th>
+      <th></th>
+    </tr>
+    <% @versions.each do |v| %>
+      <tr>
+        <td><%= v %></td>
+        <td><input type="checkbox"></td>
+      </tr>
+    <% end %>
+  </table>
+  <div class="text-right">
+    <button type="submit" class="btn btn-primary">Sync</button>
+  </div>
+<% end %>
